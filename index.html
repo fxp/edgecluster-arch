@@ -412,6 +412,7 @@ pre {
   <div class="tab" onclick="show(2)">数据流</div>
   <div class="tab" onclick="show(3)">模型路由</div>
   <div class="tab" onclick="show(4)">演进路径</div>
+  <div class="tab" onclick="show(5)" style="border-left:1px solid var(--border);margin-left:8px;padding-left:20px">📋 进展日志</div>
 </div>
 
 <div class="content">
@@ -1270,6 +1271,128 @@ model_list:
   </div>
 
 </div><!-- panel 4 -->
+
+
+<!-- ════════════════════════════════════════
+     PANEL 5 — 进展日志
+════════════════════════════════════════ -->
+<div class="panel" id="panel-log">
+  <div class="section-title">📋 开发进展日志</div>
+  <div class="section-sub">每次任务完成后更新 · 自动同步到 GitHub Pages</div>
+
+  <div style="max-width:760px">
+
+    <!-- ── 2026-04-24 ── -->
+    <div style="display:flex;gap:0;margin-bottom:0">
+      <div style="width:110px;padding-top:14px;flex-shrink:0">
+        <div style="font-size:11px;color:var(--muted);text-align:right;padding-right:20px;font-family:monospace">2026-04-24</div>
+      </div>
+      <div style="border-left:2px solid var(--border);padding-left:20px;flex:1;padding-bottom:8px">
+
+        <!-- Entry 1 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">L5 Admin Console 系统监控修复 & 升级</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · 提取 <code style="color:var(--cyan)">deps.py</code> 解决循环 import（routers → main → routers）<br>
+            · 新增 <code style="color:var(--cyan)">routers/system.py</code>：CPU/内存/GPU 检测（macOS + Linux + ROCm + NVIDIA）<br>
+            · 仪表盘 stat cards 接入真实系统数据（内存占用、GPU 型号、进程在线数）<br>
+            · 新增「系统资源监控」页：主机资源 + GPU 卡片 + 进程状态表
+          </div>
+        </div>
+
+        <!-- Entry 2 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">L2 + L1：Ollama & AMD Ryzen AI Max 395 加入架构</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · L2 推理层新增 Ollama（:11434 OpenAI-compatible，支持 Llama 3.3 70B / Qwen2.5 72B）<br>
+            · L1 硬件层新增 AMD Ryzen AI Max 395（Strix Halo · 40-core RDNA3.5 · 128GB 统一内存）<br>
+            · <code style="color:var(--cyan)">litellm/config.yaml</code> 新增 Ollama 注释配置段（取消注释即接入）
+          </div>
+        </div>
+
+        <!-- Entry 3 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">GitHub Pages 部署</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · 创建公开仓库 <a href="https://github.com/fxp/edgecluster-arch" style="color:var(--blue)">fxp/edgecluster-arch</a><br>
+            · 启用 GitHub Pages → <a href="https://fxp.github.io/edgecluster-arch/" style="color:var(--blue)">fxp.github.io/edgecluster-arch</a><br>
+            · 每次任务完成后自动同步（<code style="color:var(--cyan)">update-pages.sh</code>）
+          </div>
+        </div>
+
+        <!-- Entry 4 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">L5 Admin Console MVP 开发</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · FastAPI 后端（port 9090）：health / models / keys / spend / logs / system 6 个路由<br>
+            · 深色主题 SPA 前端：仪表盘、服务健康、模型列表、API Key 管理、用量统计、审计日志<br>
+            · 整合 LiteLLM API + Ollama API + agentgateway 健康探针
+          </div>
+        </div>
+
+        <!-- Entry 5 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">架构图发布 + 完成状态标注</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · 5 标签页架构图：系统总览、网关层详图、数据流、模型路由、演进路径<br>
+            · 总览图每个组件标注完成状态（绿色实线 = 运行中，虚线 = 规划）<br>
+            · 图例、计数、"当前已实现范围" 分割线
+          </div>
+        </div>
+
+        <!-- Entry 6 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">MVP 全栈验证（LiteLLM + agentgateway + Kilo Code）</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · LiteLLM :8080 — 5 模型别名，BigModel GLM-4.6，OpenAI 兼容 ✅<br>
+            · agentgateway :8081 — MCP SSE，filesystem × 14 工具 ✅<br>
+            · Kilo Code MCP 配置写入（mcp_settings.json），VS Code 接入 ✅<br>
+            · start-all.sh 一键启动全栈（LiteLLM + agentgateway + Admin）
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 下一步 -->
+    <div style="margin-top:8px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">⏳ 下一步计划</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Ollama 安装 + AMD 395 适配（ROCm 驱动）</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Admin Console — 用量统计（接 PostgreSQL）</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Admin Console — API Key 配额管理完整流程</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>vLLM 节点接入（DGX Spark 到位后）</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Admin Console — SSO 登录（LDAP/OIDC）</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>L5 监控告警（Prometheus + Grafana 接入）</span></div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- panel 5 -->
 
 </div><!-- .content -->
 
