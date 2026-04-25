@@ -1378,16 +1378,100 @@ model_list:
       </div>
     </div>
 
+    <!-- ── 2026-04-26 ── -->
+    <div style="display:flex;gap:0;margin-top:24px;margin-bottom:0">
+      <div style="width:110px;padding-top:14px;flex-shrink:0">
+        <div style="font-size:11px;color:var(--muted);text-align:right;padding-right:20px;font-family:monospace">2026-04-26</div>
+      </div>
+      <div style="border-left:2px solid var(--border);padding-left:20px;flex:1;padding-bottom:8px">
+
+        <!-- Entry: Spend 统计 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">L5 Admin — 用量统计仪表盘</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · 新增 <code style="color:var(--cyan)">/spend/summary</code> 今日/本月汇总接口<br>
+            · 新增 <code style="color:var(--cyan)">/spend/daily</code> 7天趋势接口<br>
+            · 前端三标签视图：按模型 / 按 Key / 7天趋势（CSS 横向条形图）<br>
+            · 顶部 stat cards：今日请求、Token 数、费用
+          </div>
+        </div>
+
+        <!-- Entry: Key 管理 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">L5 Admin — API Key 完整配额管理</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · 新增 <code style="color:var(--cyan)">PUT /keys/{key}</code> 更新预算/模型/限速<br>
+            · 新增 <code style="color:var(--cyan)">POST /keys/{key}/block|unblock</code> 禁用/恢复<br>
+            · 前端：预算进度条、RPM 显示、复制密钥、编辑弹窗、禁用/恢复按钮<br>
+            · 创建 Key 时支持 RPM + TPM 限速字段
+          </div>
+        </div>
+
+        <!-- Entry: MCP Gateway -->
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">L3 agentgateway — MCP 网关管理页</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · 新增 <code style="color:var(--cyan)">routers/mcp.py</code>：解析 config.yaml + 检测 agentgateway 在线状态<br>
+            · 前端：MCP 网关状态卡、已注册 Server 列表（类型/命令/URL）<br>
+            · 审计日志页完善（MCP JSONL + LLM 日志双视图）
+          </div>
+        </div>
+
+        <!-- Entry: Prometheus -->
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">Prometheus + Grafana 监控接入</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · 新增 <code style="color:var(--cyan)">GET /api/metrics</code>（Prometheus text format）<br>
+            · 导出：内存、服务在线状态、平台信息等指标<br>
+            · 新建 <code style="color:var(--cyan)">monitoring/docker-compose.yml</code>（Prometheus :9091 + Grafana :3000）<br>
+            · Admin UI 新增「Prometheus 指标」页（实时预览 + 配置示例）
+          </div>
+        </div>
+
+        <!-- Entry: SSO + 多节点 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">SSO 登录页 + 多节点管理</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · 登录覆盖层：输入 Admin Key → localStorage 持久化，支持登出<br>
+            · 新增 <code style="color:var(--cyan)">routers/nodes.py</code>：节点注册表 CRUD（JSON 文件存储）<br>
+            · 节点注册/移除/Ping，实时健康检测（异步并发）<br>
+            · 前端「节点管理」页：本机状态 + 远程节点卡片（延迟、标签、状态）
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- 下一步 -->
     <div style="margin-top:8px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
       <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">⏳ 下一步计划</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Ollama 安装 + AMD 395 适配（ROCm 驱动）</span></div>
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Admin Console — 用量统计（接 PostgreSQL）</span></div>
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Admin Console — API Key 配额管理完整流程</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>AMD 395 联网 → 节点注册 + ROCm 驱动调试</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>PostgreSQL 接入 → 用量统计真实数据</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Grafana 仪表盘 JSON 预配置（自动导入）</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>vLLM 节点接入（DGX Spark 到位后）</span></div>
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Admin Console — SSO 登录（LDAP/OIDC）</span></div>
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>L5 监控告警（Prometheus + Grafana 接入）</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>OIDC 对接（Keycloak / Google OAuth）</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>多节点 LiteLLM 路由聚合（跨节点负载均衡）</span></div>
       </div>
     </div>
 
