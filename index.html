@@ -1524,6 +1524,35 @@ model_list:
       </div>
     </div>
 
+    <!-- ── 2026-04-28 运维管理层 v0.3 ── -->
+    <div style="display:flex;gap:0;margin-top:24px;margin-bottom:0">
+      <div style="width:110px;padding-top:14px;flex-shrink:0">
+        <div style="font-size:11px;color:var(--muted);text-align:right;padding-right:20px;font-family:monospace">2026-04-28</div>
+      </div>
+      <div style="border-left:2px solid var(--border);padding-left:20px;flex:1;padding-bottom:8px">
+
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">Admin Console v0.3 — 运维管理层完整实现</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · <strong>节点模型管理</strong>：<code style="color:var(--cyan)">GET/POST/DELETE /api/nodes/{id}/models</code> — 列表、Pull（SSE 流式进度）、删除远程 Ollama 节点模型<br>
+            · <strong>服务生命周期控制</strong>：<code style="color:var(--cyan)">POST /api/system/services/{name}/restart|stop|start</code> — UI 重启 LiteLLM / agentgateway<br>
+            · <strong>后台健康监控</strong>：FastAPI lifespan 启动 asyncio 任务，60s 探测所有服务，内存环形队列存 2h 历史，<code style="color:var(--cyan)">GET /api/health/history</code> 返回在线率 + Sparkline 数据点<br>
+            · <strong>实时日志流</strong>：<code style="color:var(--cyan)">GET /api/logs/stream/{service}</code> — SSE tail 日志，支持 ?api_key= query param 鉴权（EventSource 不支持 Header）<br>
+            · <strong>配置编辑器</strong>：<code style="color:var(--cyan)">GET/PUT /api/config/litellm</code> — 在线编辑 LiteLLM config.yaml，写入前 YAML 校验，保存后自动重启 LiteLLM<br>
+            · <strong>前端新增 3 页面</strong>：服务控制（含在线率 Sparkline）/ 实时日志流（终端仿真）/ 配置编辑器（保存即重启）<br>
+            · 节点卡片新增「管理模型」按钮 → Modal 内 Pull/删除模型，带进度条<br>
+            · Dashboard 加入健康历史 Sparkline（后台监控异步注入）<br>
+            · 双鉴权模式：Bearer Header + ?api_key= Query Param（deps.py 统一支持）
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- 下一步 -->
     <div style="margin-top:8px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
       <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">⏳ 下一步计划</div>
