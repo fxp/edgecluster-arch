@@ -440,7 +440,7 @@ pre {
     </div>
     <div style="margin-left:auto; display:flex; align-items:center; gap:6px; font-size:12px; color:var(--green); font-weight:600">
       <span>✓</span> 已完成 14 个组件
-      <span style="color:var(--muted); font-weight:400; margin-left:4px">/ 33 个 · Windows Ollama 已接入 · AMD 395 适配中</span>
+      <span style="color:var(--muted); font-weight:400; margin-left:4px">/ 33 个 · AMD 395 (Windows/Ollama) 已接入 · L2 多节点在线</span>
     </div>
   </div>
 
@@ -589,7 +589,7 @@ pre {
       <div class="layer-hd">
         <span class="layer-tag layer-tag-l2">L2</span>
         <span class="layer-name">推理层</span>
-        <span class="badge badge-green" style="margin-left:6px">✓ Ollama 已接入 (Windows PC)</span>
+        <span class="badge badge-green" style="margin-left:6px">✓ AMD 395 已接入 (Windows/Ollama)</span>
       </div>
       <div class="comps">
         <div class="comp c-big done" style="border-color:rgba(210,153,34,.5)">
@@ -598,20 +598,21 @@ pre {
           <div class="comp-port">open.bigmodel.cn</div>
           <div class="comp-status cs-cloud">✓ 云端上游</div>
         </div>
-        <!-- Ollama — Windows PC 已接入 -->
+        <!-- Ollama — AMD 395 (Windows) 已接入 -->
         <div class="comp done" style="border-color:rgba(63,185,80,.5);background:rgba(63,185,80,.04)">
-          <div class="comp-name" style="color:var(--green)">Ollama (Windows PC)</div>
-          <div class="comp-sub">10.253.212.178 · v0.21.1 · 已接入 ✅</div>
-          <div class="comp-sub" style="margin-top:2px">gemma4:latest (8B Q4_K_M)</div>
-          <div class="comp-port">:11434 · think=false / think=true</div>
+          <div class="comp-name" style="color:var(--green)">Ollama (AMD 395 · Windows)</div>
+          <div class="comp-sub">10.253.212.178 · Ollama v0.21.1 · 已接入 ✅</div>
+          <div class="comp-sub" style="margin-top:2px">gemma4:latest (8B Q4_K_M) · edgecluster-gemma4</div>
+          <div class="comp-port">:11434 · think=false / think=true 双模式</div>
           <div class="comp-status cs-ok">✓ 在线</div>
         </div>
-        <!-- Ollama — AMD 395 待接入 -->
+        <!-- Ollama — 更多模型待拉取 -->
         <div class="comp done" style="border-color:rgba(249,115,22,.5);background:rgba(249,115,22,.05)">
-          <div class="comp-name" style="color:#f97316">Ollama (AMD 395)</div>
-          <div class="comp-sub">待联网 · Llama 3.3 70B · Qwen2.5 72B</div>
+          <div class="comp-name" style="color:#f97316">Ollama (AMD 395 · 更多模型)</div>
+          <div class="comp-sub">同一节点 · ROCm 加速待验证</div>
+          <div class="comp-sub" style="margin-top:2px">Llama 3.3 70B · Qwen2.5 72B 待拉取</div>
           <div class="comp-port">:11434/v1 · OpenAI-compatible</div>
-          <div class="comp-status" style="background:rgba(249,115,22,.15);color:#f97316;border-radius:10px;padding:1px 6px;font-size:10px;margin-top:5px;font-weight:600">⏳ 待接入</div>
+          <div class="comp-status" style="background:rgba(249,115,22,.15);color:#f97316;border-radius:10px;padding:1px 6px;font-size:10px;margin-top:5px;font-weight:600">⏳ 待拉取模型</div>
         </div>
         <div class="comp c-vllm planned">
           <div class="comp-name">vLLM 节点 (PoC)</div>
@@ -642,25 +643,16 @@ pre {
       <div class="layer-hd">
         <span class="layer-tag layer-tag-l1">L1</span>
         <span class="layer-name">硬件层</span>
-        <span class="badge badge-green">✓ Windows PC 已接入</span>
-        <span class="badge" style="margin-left:4px;background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)">🔧 AMD 395 适配中</span>
+        <span class="badge badge-green">✓ AMD 395 已接入</span>
       </div>
       <div class="comps">
-        <!-- Windows PC — 已接入 -->
-        <div class="comp c-gpu done" style="border-color:rgba(63,185,80,.5);min-width:180px;background:rgba(63,185,80,.04)">
-          <div class="comp-name" style="color:var(--green)">Windows PC</div>
-          <div class="comp-sub">10.253.212.178 · Ollama v0.21.1</div>
-          <div class="comp-sub" style="margin-top:2px">gemma4:latest (8B Q4_K_M ~9.6GB)</div>
-          <div class="comp-port">:11434 · 已注册为 EdgeCluster 节点</div>
-          <div class="comp-status cs-ok">✓ 在线</div>
-        </div>
-        <!-- AMD 395 — 当前适配目标，标为进行中 -->
-        <div class="comp c-gpu done" style="border-color:rgba(248,81,73,.5);min-width:180px">
-          <div class="comp-name" style="color:#f97316">AMD Ryzen AI Max 395</div>
-          <div class="comp-sub">Strix Halo · 40-core RDNA3.5 iGPU</div>
-          <div class="comp-sub" style="margin-top:2px">128GB 统一内存 · ROCm 支持</div>
-          <div class="comp-port">Ollama :11434 · 可跑 70B 模型</div>
-          <div class="comp-status" style="background:rgba(249,115,22,.15);color:#f97316;border-radius:10px;padding:1px 6px;font-size:10px;margin-top:5px;font-weight:600">🔧 适配中</div>
+        <!-- AMD 395 — Windows + Ollama，已接入 -->
+        <div class="comp c-gpu done" style="border-color:rgba(63,185,80,.5);min-width:200px;background:rgba(63,185,80,.04)">
+          <div class="comp-name" style="color:var(--green)">AMD Ryzen AI Max 395</div>
+          <div class="comp-sub">Strix Halo · 40-core RDNA3.5 iGPU · 128GB 统一内存</div>
+          <div class="comp-sub" style="margin-top:2px">Windows · Ollama v0.21.1 · gemma4:latest ✅</div>
+          <div class="comp-port">10.253.212.178:11434 · 已注册 EdgeCluster 节点</div>
+          <div class="comp-status cs-ok">✓ 在线 · ROCm 待验证</div>
         </div>
         <div class="comp c-gpu planned">
           <div class="comp-name">DGX Spark (NVIDIA)</div>
@@ -1515,10 +1507,10 @@ model_list:
           <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <span class="badge badge-green">✓ 完成</span>
-            <span style="font-weight:600;font-size:13px">Windows PC (Ollama/Gemma4) — 远程节点接入</span>
+            <span style="font-weight:600;font-size:13px">AMD Ryzen AI Max 395 (Windows/Ollama) — 远程节点接入</span>
           </div>
           <div style="font-size:12px;color:var(--muted);line-height:1.7">
-            · <strong>硬件</strong>：Windows PC（10.253.212.178）运行 Ollama v0.21.1，模型 gemma4:latest (8B Q4_K_M)<br>
+            · <strong>硬件</strong>：AMD Ryzen AI Max 395（Strix Halo · 40-core RDNA3.5 · 128GB · 10.253.212.178）运行 Windows + Ollama v0.21.1，模型 gemma4:latest (8B Q4_K_M)<br>
             · <strong>LiteLLM 路由</strong>：新增 <code style="color:var(--cyan)">edgecluster-gemma4</code>（think=false）和 <code style="color:var(--cyan)">edgecluster-gemma4-think</code>（think=true）两个模型别名<br>
             · <em>发现</em>：Gemma4 在中文输入时触发思考模式，reasoning 消耗全部 tokens，content 为空 → 通过 <code style="color:var(--cyan)">extra_body: think: false</code> 修复<br>
             · <strong>节点注册</strong>：改写 <code style="color:var(--cyan)">routers/nodes.py</code>，支持自动探测节点类型（EdgeCluster Admin / Ollama-only）<br>
@@ -1536,7 +1528,7 @@ model_list:
     <div style="margin-top:8px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
       <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">⏳ 下一步计划</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>AMD 395 联网 → 节点注册 + ROCm + Ollama 调试</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>AMD 395 ROCm 验证 + 拉取 Llama 3.3 70B / Qwen2.5 72B</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>PostgreSQL 接入 → 用量统计真实数据</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Grafana 仪表盘 JSON 预配置（自动导入）</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>vLLM 节点接入（DGX Spark 到位后）</span></div>
