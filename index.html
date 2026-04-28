@@ -440,7 +440,7 @@ pre {
     </div>
     <div style="margin-left:auto; display:flex; align-items:center; gap:6px; font-size:12px; color:var(--green); font-weight:600">
       <span>✓</span> 已完成 14 个组件
-      <span style="color:var(--muted); font-weight:400; margin-left:4px">/ 31 个 · AMD 395 + Ollama 适配中 · L5 开发中</span>
+      <span style="color:var(--muted); font-weight:400; margin-left:4px">/ 33 个 · Windows Ollama 已接入 · AMD 395 适配中</span>
     </div>
   </div>
 
@@ -589,7 +589,7 @@ pre {
       <div class="layer-hd">
         <span class="layer-tag layer-tag-l2">L2</span>
         <span class="layer-name">推理层</span>
-        <span class="badge badge-green" style="margin-left:6px">✓ Ollama 可用</span>
+        <span class="badge badge-green" style="margin-left:6px">✓ Ollama 已接入 (Windows PC)</span>
       </div>
       <div class="comps">
         <div class="comp c-big done" style="border-color:rgba(210,153,34,.5)">
@@ -598,13 +598,20 @@ pre {
           <div class="comp-port">open.bigmodel.cn</div>
           <div class="comp-status cs-cloud">✓ 云端上游</div>
         </div>
-        <!-- Ollama — 本地推理，已可用 -->
+        <!-- Ollama — Windows PC 已接入 -->
+        <div class="comp done" style="border-color:rgba(63,185,80,.5);background:rgba(63,185,80,.04)">
+          <div class="comp-name" style="color:var(--green)">Ollama (Windows PC)</div>
+          <div class="comp-sub">10.253.212.178 · v0.21.1 · 已接入 ✅</div>
+          <div class="comp-sub" style="margin-top:2px">gemma4:latest (8B Q4_K_M)</div>
+          <div class="comp-port">:11434 · think=false / think=true</div>
+          <div class="comp-status cs-ok">✓ 在线</div>
+        </div>
+        <!-- Ollama — AMD 395 待接入 -->
         <div class="comp done" style="border-color:rgba(249,115,22,.5);background:rgba(249,115,22,.05)">
-          <div class="comp-name" style="color:#f97316">Ollama</div>
-          <div class="comp-sub">本地 LLM 运行时 · AMD 395 适配</div>
-          <div class="comp-sub" style="margin-top:2px">Llama 3.3 70B · Qwen2.5 72B</div>
+          <div class="comp-name" style="color:#f97316">Ollama (AMD 395)</div>
+          <div class="comp-sub">待联网 · Llama 3.3 70B · Qwen2.5 72B</div>
           <div class="comp-port">:11434/v1 · OpenAI-compatible</div>
-          <div class="comp-status" style="background:rgba(249,115,22,.15);color:#f97316;border-radius:10px;padding:1px 6px;font-size:10px;margin-top:5px;font-weight:600">✓ 可用 · 接入中</div>
+          <div class="comp-status" style="background:rgba(249,115,22,.15);color:#f97316;border-radius:10px;padding:1px 6px;font-size:10px;margin-top:5px;font-weight:600">⏳ 待接入</div>
         </div>
         <div class="comp c-vllm planned">
           <div class="comp-name">vLLM 节点 (PoC)</div>
@@ -635,9 +642,18 @@ pre {
       <div class="layer-hd">
         <span class="layer-tag layer-tag-l1">L1</span>
         <span class="layer-name">硬件层</span>
-        <span class="badge badge-green">✓ AMD 395 适配中</span>
+        <span class="badge badge-green">✓ Windows PC 已接入</span>
+        <span class="badge" style="margin-left:4px;background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)">🔧 AMD 395 适配中</span>
       </div>
       <div class="comps">
+        <!-- Windows PC — 已接入 -->
+        <div class="comp c-gpu done" style="border-color:rgba(63,185,80,.5);min-width:180px;background:rgba(63,185,80,.04)">
+          <div class="comp-name" style="color:var(--green)">Windows PC</div>
+          <div class="comp-sub">10.253.212.178 · Ollama v0.21.1</div>
+          <div class="comp-sub" style="margin-top:2px">gemma4:latest (8B Q4_K_M ~9.6GB)</div>
+          <div class="comp-port">:11434 · 已注册为 EdgeCluster 节点</div>
+          <div class="comp-status cs-ok">✓ 在线</div>
+        </div>
         <!-- AMD 395 — 当前适配目标，标为进行中 -->
         <div class="comp c-gpu done" style="border-color:rgba(248,81,73,.5);min-width:180px">
           <div class="comp-name" style="color:#f97316">AMD Ryzen AI Max 395</div>
@@ -1482,6 +1498,34 @@ model_list:
             · <strong>L4</strong> OpenAI Python SDK 直连 EdgeCluster，流式输出，claude 别名路由均正常 ✅<br>
             · <strong>L5</strong> Admin Console v0.2 所有 API 真实数据呈现，修复 agentgateway 健康检查误报 ✅<br>
             · <em>发现</em>：glm-4.6 为推理模型，需 max_tokens≥300（推理占约220tok）；glm-4-flash 无推理延迟
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── 2026-04-28 Windows PC Ollama 节点 ── -->
+    <div style="display:flex;gap:0;margin-top:24px;margin-bottom:0">
+      <div style="width:110px;padding-top:14px;flex-shrink:0">
+        <div style="font-size:11px;color:var(--muted);text-align:right;padding-right:20px;font-family:monospace">2026-04-28</div>
+      </div>
+      <div style="border-left:2px solid var(--border);padding-left:20px;flex:1;padding-bottom:8px">
+
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">Windows PC (Ollama/Gemma4) — 远程节点接入</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · <strong>硬件</strong>：Windows PC（10.253.212.178）运行 Ollama v0.21.1，模型 gemma4:latest (8B Q4_K_M)<br>
+            · <strong>LiteLLM 路由</strong>：新增 <code style="color:var(--cyan)">edgecluster-gemma4</code>（think=false）和 <code style="color:var(--cyan)">edgecluster-gemma4-think</code>（think=true）两个模型别名<br>
+            · <em>发现</em>：Gemma4 在中文输入时触发思考模式，reasoning 消耗全部 tokens，content 为空 → 通过 <code style="color:var(--cyan)">extra_body: think: false</code> 修复<br>
+            · <strong>节点注册</strong>：改写 <code style="color:var(--cyan)">routers/nodes.py</code>，支持自动探测节点类型（EdgeCluster Admin / Ollama-only）<br>
+            · 探测顺序：<code>GET /api/health</code>（EdgeCluster）→ <code>GET /api/version</code>（Ollama）→ 返回 node_type / ollama_version / models<br>
+            · <strong>Admin UI 节点卡</strong>：展示 node_type 徽章（Ollama/EdgeCluster）、Ollama 版本、模型列表、延迟<br>
+            · 修复去重 Bug：同一 ID 或同一 URL 注册时均触发更新（不再插入重复条目）<br>
+            · 验证：注册后 ping 返回 <code>online:true, latency_ms:~70, models:["gemma4:latest"]</code> ✅
           </div>
         </div>
 
