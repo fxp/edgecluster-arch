@@ -403,7 +403,7 @@ pre {
 
 <div class="header">
   <h1>EdgeCluster One &mdash; 架构图</h1>
-  <span class="meta">DOC-2026-EDGE-001-ARCH · v1.0 · 2026-04-24</span>
+  <span class="meta">DOC-2026-EDGE-001-ARCH · v1.1 · 2026-04-29</span>
 </div>
 
 <div class="tabs">
@@ -1553,15 +1553,70 @@ model_list:
       </div>
     </div>
 
+    <!-- ── 2026-04-29 ── -->
+    <div style="display:flex;gap:0;margin-top:24px;margin-bottom:0">
+      <div style="width:110px;padding-top:14px;flex-shrink:0">
+        <div style="font-size:11px;color:var(--muted);text-align:right;padding-right:20px;font-family:monospace">2026-04-29</div>
+      </div>
+      <div style="border-left:2px solid var(--border);padding-left:20px;flex:1;padding-bottom:8px">
+
+        <!-- Entry: BigModel 迁移 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">推理层迁移至 BigModel（AMD 395 暂不在同一网络）</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · <strong>全模型别名切换至 BigModel API</strong>：<code style="color:var(--cyan)">edgecluster-gemma4 / gemma4-think / claude-*</code> 均路由至 GLM-4.6 / GLM-4-Flash<br>
+            · Ollama 条目保留注释（<code>api_base: http://10.253.212.178:11434</code>），回归同局域网时一行取消注释恢复<br>
+            · <strong>修复 gemma4 离线别名 token 耗尽问题</strong>：原别名指向 GLM-4.6（推理模型），在 <code>max_tokens≤200</code> 时 reasoning_content 耗尽 budget，content 为空；改为 GLM-4-Flash（非推理），<code>max_tokens:60</code> 下测试全部正常 ✅<br>
+            · <em>发现</em>：GLM-4.6 定位为需要较大 token 预算的推理任务（建议 <code>max_tokens≥500</code>）；日常对话/工具调用推荐 GLM-4-Flash
+          </div>
+        </div>
+
+        <!-- Entry: gemma4-think 工具调用 Bug 根因 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--blue);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-blue">🔍 根因</span>
+            <span style="font-weight:600;font-size:13px">gemma4-think 返回 tool_call 而非文字回复 — 根因分析</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · <strong>根因</strong>：Kilo Code 自动向所有请求注入工具定义（含 <code style="color:var(--cyan)">answer</code> 工具）；Gemma4 开启思考模式后极度倾向于调用工具而非直接回复，导致返回 <code>{"tool_calls":[{"function":"answer","args":{...}}]}</code><br>
+            · <strong>核心矛盾</strong>：think 模式 + 外部工具注入 → 模型将"如何回答"也包装成工具调用<br>
+            · <strong>解决方案</strong>：在 Kilo Code 中改用 <code style="color:var(--cyan)">edgecluster-glm-flash</code>；保留 <code>edgecluster-gemma4-think</code> 用于无工具注入的直接 API 调用场景<br>
+            · <strong>路由确认方法</strong>：① 问模型身份（Gemma4 → "Google DeepMind"，GLM → "ChatGLM"）；② 查响应 <code>model</code> 字段；③ 实时日志流页面查 LiteLLM 路由记录
+          </div>
+        </div>
+
+        <!-- Entry: 环境变量 & 进程管理修复 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 修复</span>
+            <span style="font-weight:600;font-size:13px">LiteLLM 进程启动 — 环境变量传递修复</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · <em>问题</em>：<code>nohup</code> 配合 <code>source .env</code> 在某些 shell 上不能可靠继承环境变量，导致 <code>BIGMODEL_API_KEY</code> 未传入 LiteLLM 进程，返回 <code>AuthenticationError</code><br>
+            · <strong>修复</strong>：改为 <code>env $(cat .env | grep -v '^#' | xargs) nohup litellm ...</code>，显式将 .env 键值注入子进程<br>
+            · 启动脚本已知悉，待统一更新 <code>start-all.sh</code>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- 下一步 -->
     <div style="margin-top:8px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
       <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">⏳ 下一步计划</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>AMD 395 ROCm 验证 + 拉取 Llama 3.3 70B / Qwen2.5 72B</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>AMD 395 恢复同网络 → Ollama 路由切回 + ROCm 验证</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>更新 start-all.sh：用 <code>env $(cat .env | xargs)</code> 启动 LiteLLM</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>AMD 395 拉取 Llama 3.3 70B / Qwen2.5 72B</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>PostgreSQL 接入 → 用量统计真实数据</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Grafana 仪表盘 JSON 预配置（自动导入）</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>vLLM 节点接入（DGX Spark 到位后）</span></div>
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Kilo Code / Claude Code 接入验证</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>多节点 LiteLLM 路由聚合（跨节点负载均衡）</span></div>
       </div>
     </div>
