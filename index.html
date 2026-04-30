@@ -403,7 +403,7 @@ pre {
 
 <div class="header">
   <h1>EdgeCluster One &mdash; 架构图</h1>
-  <span class="meta">DOC-2026-EDGE-001-ARCH · v1.1 · 2026-04-29</span>
+  <span class="meta">DOC-2026-EDGE-001-ARCH · v1.2 · 2026-04-30</span>
 </div>
 
 <div class="tabs">
@@ -1607,14 +1607,66 @@ model_list:
       </div>
     </div>
 
+    <!-- ── 2026-04-30 ── -->
+    <div style="display:flex;gap:0;margin-top:24px;margin-bottom:0">
+      <div style="width:110px;padding-top:14px;flex-shrink:0">
+        <div style="font-size:11px;color:var(--muted);text-align:right;padding-right:20px;font-family:monospace">2026-04-30</div>
+      </div>
+      <div style="border-left:2px solid var(--border);padding-left:20px;flex:1;padding-bottom:8px">
+
+        <!-- Entry: PostgreSQL 自动安装 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:10px">
+          <div style="position:absolute;left:-27px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 完成</span>
+            <span style="font-weight:600;font-size:13px">PostgreSQL@16 自动安装 &amp; LiteLLM 数据库初始化（<code>setup-db.sh</code>）</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · <strong>幂等安装脚本</strong> <code style="color:var(--cyan)">bash setup-db.sh</code>：Homebrew 安装 PG@16 → <code>initdb</code> 集群初始化 → 启动 → 创建用户 <code>edgecluster</code> + 数据库 → 写 <code>DATABASE_URL</code> 到 <code>.env</code> → Prisma DB Push — 全程无需手动配置<br>
+            · <strong>Prisma 迁移</strong>：<code>prisma db push --schema schema.prisma --skip-generate</code>，首次创建 60 张表（<code>LiteLLM_SpendLogs</code>、<code>LiteLLM_VerificationToken</code> 等），幂等可重复运行<br>
+            · <strong><code>start-all.sh</code> 集成</strong>：新增 <code>_ensure_postgres()</code>，每次启动自动检查并拉起 PG（未安装则打印提示运行 <code>setup-db.sh</code>）<br>
+            · <em>关键细节</em>：macOS 需要 <code>LC_ALL="en_US.UTF-8"</code> 才能正常启动 PG（否则 <code>FATAL: postmaster became multithreaded</code>）；脚本中变量全部采用 <code>${VAR}</code> 形式避免 Unicode 字符解析 Bug
+          </div>
+        </div>
+
+        <!-- Entry: 管理控制台三项 Bug 修复 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-green">✓ 修复</span>
+            <span style="font-weight:600;font-size:13px">Admin Console 三项 Bug 修复</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · <strong>agentgateway 健康探针</strong>：原逻辑向 <code>:8081/</code> POST MCP initialize → SSE 流式响应导致 httpx 超时 → 状态 ❌；改为 <code>GET :15021/healthz/ready</code>（agentgateway 原生就绪探针，约 21ms 返回 200）✅<br>
+            · <strong>创建 Key 无响应</strong>：<code>httpx.HTTPStatusError</code> 的 <code>str(e)</code> 不含响应 body，LiteLLM 的 <code>"DB not connected"</code> 在 body 中被丢弃；修复 <code>_check_db_error()</code> 读取 <code>e.response.text</code>，在无 DB 时抛出 422 + 中文提示；DB 接入后 Key 创建恢复正常并返回完整 <code>sk-...</code> token<br>
+            · <strong>错误 Toast 样式</strong>：<code>showToast(msg, 'error')</code> 新增红色边框 + 自动 6s 关闭（成功 Toast 为 3s），前端 <code>doCreateKey()</code> 增加 try/catch 与 <code>r.ok</code> 判断
+          </div>
+        </div>
+
+        <!-- Entry: LiteLLM 启动链路加固 -->
+        <div style="position:relative;margin-bottom:20px;padding-top:2px">
+          <div style="position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--blue);border:2px solid var(--bg)"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge badge-blue">🔧 加固</span>
+            <span style="font-weight:600;font-size:13px">LiteLLM 启动链路加固（遥测挂起 / 环境变量 / 路径空格）</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            · <strong>启动挂起根因</strong>：LiteLLM 启动时向外发出 3× <code>SYN_SENT</code> 遥测请求（目标 <code>127.0.0.2:80</code>），被本地代理拦截 → 挂 2-3 分钟；修复：<code>.env</code> 加 <code>LITELLM_TELEMETRY=False</code>、<code>LITELLM_LOCAL_MODEL_COST_MAP=True</code>，<code>config.yaml</code> 加 <code>telemetry: false</code>，所有启动命令追加 <code>--telemetry False</code><br>
+            · <strong>环境变量注入</strong>：<code>env $(grep -v '^#' .env | grep '=' | xargs) nohup litellm</code> 确保变量显式注入子进程（规避 <code>nohup</code> 丢变量问题）；注意 <code>.env</code> 注释必须单独一行，不能行内注释<br>
+            · <strong>iCloud 路径空格</strong>：<code>system.py</code>/<code>config.py</code> 中用 <code>shlex.quote()</code> 包裹含空格的 iCloud 路径，避免 LiteLLM CLI 把路径中的空格拆成多余参数
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- 下一步 -->
     <div style="margin-top:8px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
       <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">⏳ 下一步计划</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>AMD 395 恢复同网络 → Ollama 路由切回 + ROCm 验证</span></div>
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>更新 start-all.sh：用 <code>env $(cat .env | xargs)</code> 启动 LiteLLM</span></div>
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>AMD 395 拉取 Llama 3.3 70B / Qwen2.5 72B</span></div>
-        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>PostgreSQL 接入 → 用量统计真实数据</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--amber)">▸</span><span>AMD 395 拉取 Llama 3.3 70B / Qwen2.5 72B</span></div>
+        <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Admin 用量统计页查看真实花费数据（DB 已接入）</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>Grafana 仪表盘 JSON 预配置（自动导入）</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>vLLM 节点接入（DGX Spark 到位后）</span></div>
         <div style="display:flex;gap:8px;font-size:12px"><span style="color:var(--muted)">▸</span><span>多节点 LiteLLM 路由聚合（跨节点负载均衡）</span></div>
